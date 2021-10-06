@@ -66,6 +66,7 @@ def makeMonotone(P):
 
 def handleVertex(v):
     # if, else, etc. por los vertecies diferencias.
+    # check left and right neighbors
     return
 
 
