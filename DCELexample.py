@@ -52,16 +52,22 @@ def find_intersections(event):
 
 
 
-def find_B(p1,m):
-    # y-mx
-    if m is None:
-        return 
-    return (p1[1]-p1[0]*m)
-    
-def slopeOf(s):
-    if (s[1][0]-s[0][0]) == 0:
-        return 
-    return (s[1][1]-s[0][1])/(s[1][0]-s[0][0])
+def makeMonotone(P):
+    Q = RedBlackTree()
+    label = 0
+    sortedPoints = sorted(P, key = lambda x: x[0]) #sorting by x, so we can just use sorted like this.
+    for p in sortedPoints: # points in polygon
+        Q.insert(p) #insert the vertecies from left to right
+    while not Q.is_empty():
+        min_node = Q.minimum()
+        Q.delete(min_node) 
+        handleVertex(min_node) #geometric primative to decide what to do for the type of vertex
+    return Q
+
+def handleVertex(v):
+    # if, else, etc. por los vertecies diferencias.
+    return
+
 
 def intersect(p1, p2, p3, p4, xlow, xhigh):
     # *** need to implement *** 
@@ -118,6 +124,10 @@ def drawPoint(point):
     canvas.create_oval(p[0] - PSIZE, p[1] - PSIZE, p[0] + PSIZE, p[1] + PSIZE, fill='red', w=2)
 
 
+
+
+
+
 # =========================================
 root = Tk()
 root.title("DCEL Test")
@@ -162,11 +172,11 @@ def connect(p):
         s.append([p[i],p[i+1]])
     s.append([p[len(p)-1],p[0]])
     return s
-test = ([100,100],[500,100],[500,500],[100,500])
+test = ([100,300],[500,100],[600,500],[200,700],[100,600])
 
 S = connect(test)    
 
-
+makeMonotone(test)
 
 # find_inters(S3)
 
