@@ -61,6 +61,11 @@ def drawPoint(point):
     p = (point[0], YSIZE - point[1])
     canvas.create_oval(p[0] - PSIZE, p[1] - PSIZE, p[0] + PSIZE, p[1] + PSIZE, fill='red', w=2)
 
+def drawpoints(points):
+    for i in points:
+        drawPoint(i)
+    
+
 root = Tk()
 root.title("DCEL Test")
 root.geometry(str(YSIZE)+'x'+str(YSIZE)) #("800x800")
@@ -72,12 +77,9 @@ S = connect(test)
 
 
 canvas = Canvas(root, width=YSIZE, height=YSIZE, bg='#FFF', highlightbackground="#999")
-canvas.bind("<Button-1>", drawPoints(test))
+canvas.bind("<Button-1>", drawpoints(test))
 canvas.grid(row=0, column=0)
 
-
-# drawPoints(test)
-# drawPolygon(test, S, '#FFF')
 
 myDCEL = DCEL()
 myDCEL.build_dcel(test,S)
