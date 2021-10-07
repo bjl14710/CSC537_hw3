@@ -53,6 +53,7 @@ def find_intersections(event):
 
 
 def makeMonotone(P):
+    D = DCEL( )
     Q = RedBlackTree()
     label = 0
     sortedPoints = sorted(P, key = lambda x: x[0]) #sorting by x, so we can just use sorted like this.
@@ -64,9 +65,35 @@ def makeMonotone(P):
         handleVertex(min_node) #geometric primative to decide what to do for the type of vertex
     return Q
 
+
+def computeAngle(V,left,right):
+    xDiffLeft = (left[0]-V[0])
+    yDiffLeft = (left[1]-V[1])
+    xDiffRight = (right[0]-V[0])
+    yDiffRight = (right[1]-V[1])
+    a_mag = sqrt(xDiffLeft^2+yDiffLeft^2)
+    b_mag = sqrt(xDiffRight^2+yDiffRight^2)
+    a_b_dot = xDiffLeft*xDiffRight + yDiffLeft*yDiffRight
+    theta = a_b_dot/(a_mag*b_mag)
+
+    return theta
+
+def vertexType(v, mid):
+    if computeAngle(v, left, right) < 180 and v[1] < mid:
+        return START     #less than 180 and on left side
+    elif computeAngle(v, left, right) > 180 and v[1] < mid:
+        return SPLIT   
+    elif computeAngle(v, left, right) < 180 and v[1] > mid:
+        return END
+    elif computeAngle(v, left, right) > 180 and v[1] > mid:
+        return MERGE
+    else:
+        return REGULAR
+
 def handleVertex(v):
     # if, else, etc. por los vertecies diferencias.
     # check left and right neighbors
+
     return
 
 
