@@ -129,14 +129,14 @@ def handleVertex(P):
 
     return
 
-def tmp_ps(P):
-    merge(top,bottom) #into x sorted order
-    RC = 0
-    RC.push(P[0])
-    RC.push(P[1])
-    n = len(P)
-    for i in range(2,n-1):
-        if p[i] is not on 
+# def tmp_ps(P):
+#     merge(top,bottom) #into x sorted order
+#     RC = 0
+#     RC.push(P[0])
+#     RC.push(P[1])
+#     n = len(P)
+#     for i in range(2,n-1):
+#         if p[i] is not on 
 
 def intersect(p1, p2, p3, p4, xlow, xhigh):
     # *** need to implement *** 
