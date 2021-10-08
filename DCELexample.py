@@ -51,9 +51,18 @@ def find_intersections(event):
     # find_inters(segs)
 
 
+def connect(p):
+    s = []
+    for i in range(len(p)-1):
+        s.append([p[i],p[i+1]])
+    s.append([p[len(p)-1],p[0]])
+    return s
 
 def makeMonotone(P):
     D = DCEL( )
+    segments = connect(P)
+    D.build_dcel(P, segments)
+    hedges = D.hedges
     Q = RedBlackTree()
     label = 0
     sortedPoints = sorted(P, key = lambda x: x[0]) #sorting by x, so we can just use sorted like this.
@@ -63,7 +72,7 @@ def makeMonotone(P):
         min_node = Q.minimum()
         Q.delete(min_node) 
         handleVertex(min_node) #geometric primative to decide what to do for the type of vertex
-    return Q
+    return D
 
 
 def computeAngle(V,left,right):
@@ -71,28 +80,52 @@ def computeAngle(V,left,right):
     yDiffLeft = (left[1]-V[1])
     xDiffRight = (right[0]-V[0])
     yDiffRight = (right[1]-V[1])
-    a_mag = sqrt(xDiffLeft^2+yDiffLeft^2)
-    b_mag = sqrt(xDiffRight^2+yDiffRight^2)
+    a_mag = math.sqrt(xDiffLeft^2+yDiffLeft^2)
+    b_mag = math.sqrt(xDiffRight^2+yDiffRight^2)
     a_b_dot = xDiffLeft*xDiffRight + yDiffLeft*yDiffRight
     theta = a_b_dot/(a_mag*b_mag)
-
     return theta
 
-def vertexType(v, mid):
-    if computeAngle(v, left, right) < 180 and v[1] < mid:
-        return START     #less than 180 and on left side
-    elif computeAngle(v, left, right) > 180 and v[1] < mid:
-        return SPLIT   
-    elif computeAngle(v, left, right) < 180 and v[1] > mid:
-        return END
-    elif computeAngle(v, left, right) > 180 and v[1] > mid:
-        return MERGE
-    else:
-        return REGULAR
+def izquierdaODerecha(seg):
+    # for finding if a point is on the left or right
+    # based on the next and previous segments of the polygon 
+    if 1:
+        return "LEFT"
+    elif 2:
+        return "RIGHT"
+    return 
 
-def handleVertex(v):
+def vertexType(hedge):
+    # if computeAngle(v, left, right) < 180 and dir == "LEFT":
+    #     return "START"     #less than 180 and on left side
+    # elif computeAngle(v, left, right) > 180 and dir == "LEFT":
+    #     return "SPLIT"   
+    # elif computeAngle(v, left, right) < 180 and dir == "RIGHT":
+    #     return "END"
+    # elif computeAngle(v, left, right) > 180 and dir == "RIGHT":
+    #     return "MERGE"
+    # else:
+    #     return "REGULAR"
+    if hedge.prev[0] > hedge.tail[0] and hedge.next[0] > hedge.tail[0]:
+        return "MERGE"
+    elif hedge.prev[0] < hedge.tail[0] and hedge.next[0] < hedge.tail[0]:
+        return "END"
+    else:
+        if computeAngle(hedge.tail, hedge.prev, hedge.next) > math.pi:
+            return "MERGE"
+    return
+
+
+    
+def handleVertex(P):
     # if, else, etc. por los vertecies diferencias.
-    # check left and right neighbors
+    # check left and right neighbors. Pass Vertex. 
+    # Each thing is a node
+    print(P)
+    
+    # tipo = vertexType(P, P.left, P.right, dir)    
+    # We are moving left to right, sorted by x.
+    # So the node will have a left and right if it is 
 
     return
 
@@ -194,12 +227,7 @@ S1 = [[ P1[0], P1[1]],
 #myDCEL = DCEL()
 #myDCEL.build_dcel(P2, S2)
 #drawFaces(myDCEL)
-def connect(p):
-    s = []
-    for i in range(len(p)-1):
-        s.append([p[i],p[i+1]])
-    s.append([p[len(p)-1],p[0]])
-    return s
+
 test = ([100,300],[500,100],[600,500],[200,700],[100,600])
 
 S = connect(test)    
