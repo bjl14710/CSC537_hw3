@@ -129,14 +129,41 @@ def handleVertex(P):
 
     return
 
-# def tmp_ps(P):
-#     merge(top,bottom) #into x sorted order
-#     RC = 0
-#     RC.push(P[0])
-#     RC.push(P[1])
-#     n = len(P)
-#     for i in range(2,n-1):
-#         if p[i] is not on 
+def merge(Up,Bottom):
+    # Sort upper and bottom halfs according to x. 
+    sortedUp = sorted(Up, key = lambda x: x[0]) #sorting by x, so we can just use sorted like this.
+    sortedDown = sorted(Bottom, key = lambda x: x[0]) #sorting by x, so we can just use sorted like this.
+    sortedDown.reverse()
+    return sortedUp + sortedDown
+    # actual merging
+    
+def createUpperHull():
+    return
+
+def createLowerHull():
+    return
+
+def tmp_ps(P):
+#     merge(Up,Bottom) #into x sorted order
+    vert = P.vertices
+    hedge = P.hedges
+    # sortedPoints = sorted(test, key = lambda x: x) #sorting by x, so we can just use sorted like this.
+    n = len(vert)
+    PDcel = P.build_dcel(vert, hedge)
+    
+    Vt = P
+    # Vt = Vt(:n//2,)
+
+    # VtDcel = Vt.build_dcel
+    RC = []
+    # RC.build_dcel((0,0),[(0,0),(0,0)])
+    RC.append(P.vertices[0])
+    RC.append(P.vertices[1])
+    for i in range(2,n-1):
+        if not (PDcel.vertecies[i] == PDcel.vertecies[i+1]):
+            while len(RC) > 1:
+                
+                RC.pop()
 
 def intersect(p1, p2, p3, p4, xlow, xhigh):
     # *** need to implement *** 
@@ -248,6 +275,7 @@ makeMonotone(test)
 
 myDCEL = DCEL()
 myDCEL.build_dcel(test, S)
+tmp_ps(myDCEL)
 #drawFaces(myDCEL)
 
 
