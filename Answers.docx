@@ -2,18 +2,32 @@
 
 
 1. *use code to find the intersections: 
-|
-|
-|
-|
-|
-|\  /
-| \/
-|/ \
-|___\____________________________ Here. Use the constant speeds and the point, speed of m and a point, we look at the equation
+|    t0 t1
+|    / /
+|___x_x____ t2
+|  / /
+| / /
+|/ /
+| /
+|/ 
+|_______________________________ Here.
+
+Example of what the graph would look like, Vt0 = Vt1 and Vt2 = 0.
+Use the constant speeds and the point, speed of m and a point, we look at the equation
 y = mx + b find b, m is the speed. y is the position and x is the time. After some time of going at V speed, with a B head start, we will go Y distance. 
 So we will want to use the intersections. We have multiple trains and we will see that they will intersect at some point. Some may never be ahead though, because it can start
-behind a train that is faster. So if a train T1 is faster than T0 and T0 starts at B = 0 but T1 starts at B = 3. There is no possible way we can intersect with this. 
-So, we likely won't have an intersection for some of these numbers. We can find the intersections using the Bentley-Ottman, line-sweep algorithm. The point of finding these 
+behind a train that is faster. So if a train T1 is faster than or equal to the speed of T0 and T0 starts at B = 0 but T1 starts at B = 3. There is no possible way we can intersect with this. 
+So, we likely won't have an intersection for some of these segments. We can find the intersections using the algorithm for finding the intersections of a half-plane. Likely,
+A type of line-sweep algorithm would be best for this. The point of finding these 
 intersections, is because it tells us when at least two trains are at the same point. We have already showed that we cannot pass a train that has a head-start and is faster 
 than us, so we can use that knowledge and say that before that intersection, the slower train was ahead and after, the faster train is. 
+
+
+Another thing we can use the intersections for, is that we can keep track of the intersection with the biggest y value at a given point. So, let us say that T3 passes T2 at t = 5
+but t1 passed t0 at t=2. The leading train, for these 4 trains, has to be either T3 or T1. So how do we know which one? Well, if we are finding the intersections of the lines, 
+then at T=5 we should've had an intersection between T1 and T3, if one of those trains surpassed the other. We can say that if one train has a bigger value for k and for v, 
+Then that train is undoubetly the one that leads. If one has a bigger v but smaller k, we know that leads after the intersection. And lastly, if we have a bigger k but smaller
+v, then we will get out runned eventually, so we lead before the intersection.
+
+
+
