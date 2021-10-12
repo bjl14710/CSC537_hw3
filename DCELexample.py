@@ -6,6 +6,8 @@ from tkinter import *
 from DCEL import *
 import time
 import matplotlib.pyplot as plt
+import math
+ 
 
 
 YSIZE = 1000
@@ -15,6 +17,10 @@ color_idx = 0
 
 
 ####
+def getAngle(a, b, c):
+    ang = math.degrees(math.atan2(c[1]-b[1], c[0]-b[0]) - math.atan2(a[1]-b[1], a[0]-b[0]))
+    return ang + 360 if ang < 0 else ang
+ 
 
 class Event:
     def __init__(self, x, y, is_left=True, is_intersection=False, other_end=None, label=None, pl=None, ps=None, sl = None, ss=None):
@@ -176,28 +182,54 @@ def createHalf(pts,UorL):
 
 
 
-def tmp_ps(P,seg):
+def tmp_ps(P,seg,vt):
 #     merge(Up,Bottom) #into x sorted order
     PDcel = DCEL()
     upperPts = createHalf(P,'U')
     lowerPts = createHalf(P,'L')
     
-    sortedPoints = sorted(P, key = lambda x: x) #sorting by x, so we can just use sorted like this.
+    # sortedPoints = sorted(P, key = lambda x: x) #sorting by x, so we can just use sorted like this.
     n = len(P)
     PDcel.build_dcel(P, seg)
 
     # Vt = Vt(:n//2,)
-
+    # vt = P
     # VtDcel = Vt.build_dcel
     RC = []
     # RC.build_dcel((0,0),[(0,0),(0,0)])
     RC.append(P[0])
     RC.append(P[1])
     for i in range(2,n-1):
-        if not (PDcel.vertices[i] == PDcel.vertices[i+1]):
-            while len(RC) > 1:
-                
+        # j = i
+        if vt[i] in upperPts:
+            if not (P[i] in upperPts):
+                while len(RC) > 1:
+                    drawLine(P[i], vt[i], 'black')
+                    RC.pop()
+                    # j = j + 1
                 RC.pop()
+                RC.append(vt[i])
+                RC.append(P[i])
+            else:
+                while len(RC) > 1 and getAngle(vt[j-2],vt[i-1],vt[i]) > 180:
+                     drawLine(P[i], vt[i-1], 'black')
+                     RC.pop()
+                RC.append(P[i]) 
+        else:
+            if not (P[i] in lowerPts):
+                while len(RC) > 1:
+                    drawLine(P[i], vt[i], 'black')
+                    RC.pop()
+                    # j = j + 1
+                RC.pop()
+                RC.append(vt[i])
+                RC.append(P[i])
+            else:
+                while len(RC) > 1 and getAngle(vt[i-2],vt[i-1],vt[i]) > 180:
+                     drawLine(P[i], vt[i-1], 'black')
+                     RC.pop()
+                RC.append(P[i])
+
 
 def intersect(p1, p2, p3, p4, xlow, xhigh):
     # *** need to implement *** 
@@ -306,9 +338,14 @@ makeMonotone(test)
 # find_inters(S3)
 
 # canvas.create_line(x, y, x+1, y, fill="#ff0000")
+sortedPts = []
+for i in test:
+    sortedPts.append(i)
 
+sortedPoints = sorted(test, key = lambda x: x)
+# sortedPts.sorted(sortedPts, key = lambda x: x)
 myDCEL = DCEL()
-tmp_ps(test,S)
+tmp_ps(test,S,sortedPoints)
 myDCEL.build_dcel(test, S)
 
 #drawFaces(myDCEL)
