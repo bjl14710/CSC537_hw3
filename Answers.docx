@@ -1,0 +1,19 @@
+2. An algorithm that splits a simple polygon into two polygons with at most 2n/3 + 2 vertecies on each side. 
+
+
+1. *use code to find the intersections: 
+|
+|
+|
+|
+|
+|\  /
+| \/
+|/ \
+|___\____________________________ Here. Use the constant speeds and the point, speed of m and a point, we look at the equation
+y = mx + b find b, m is the speed. y is the position and x is the time. After some time of going at V speed, with a B head start, we will go Y distance. 
+So we will want to use the intersections. We have multiple trains and we will see that they will intersect at some point. Some may never be ahead though, because it can start
+behind a train that is faster. So if a train T1 is faster than T0 and T0 starts at B = 0 but T1 starts at B = 3. There is no possible way we can intersect with this. 
+So, we likely won't have an intersection for some of these numbers. We can find the intersections using the Bentley-Ottman, line-sweep algorithm. The point of finding these 
+intersections, is because it tells us when at least two trains are at the same point. We have already showed that we cannot pass a train that has a head-start and is faster 
+than us, so we can use that knowledge and say that before that intersection, the slower train was ahead and after, the faster train is. 
