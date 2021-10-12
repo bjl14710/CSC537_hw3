@@ -143,24 +143,58 @@ def createUpperHull():
 def createLowerHull():
     return
 
-def tmp_ps(P):
+def createHalf(pts,UorL):
+    pointsOfHalfUpper = []
+    pointsOfHalfLower = []
+    firstHalf = []
+    secondHalf = []
+    # concatenate so we can cycle through at minimum number
+    ptsTraverse = pts + pts
+    minNumber = min(pts, key = lambda t:t[0])  #minimum x value point
+    minNumberPos = pts.index(minNumber) # where that point is
+    i = minNumberPos
+    # keep following the ptsTraverse until we start going back
+    while ptsTraverse[i][0] < ptsTraverse[i+1][0]:
+        i = i + 1
+        firstHalf.append(ptsTraverse[i])
+    while not(ptsTraverse[i] == ptsTraverse[minNumberPos]):
+        i = i + 1
+        secondHalf.append(ptsTraverse[i])
+    # finding which one has the smallest y.
+    if min(firstHalf,key = lambda t:t[1]) > min(secondHalf,key = lambda t:t[1]):
+        # first half is upper half
+        pointsOfHalfUpper = firstHalf
+        pointsOfHalfLower = secondHalf
+    else:
+        pointsOfHalfUpper = secondHalf
+        pointsOfHalfLower = firstHalf
+
+    if UorL == 'U':
+        return pointsOfHalfUpper
+    elif UorL == 'L':
+        return pointsOfHalfLower
+
+
+
+def tmp_ps(P,seg):
 #     merge(Up,Bottom) #into x sorted order
-    vert = P.vertices
-    hedge = P.hedges
-    # sortedPoints = sorted(test, key = lambda x: x) #sorting by x, so we can just use sorted like this.
-    n = len(vert)
-    PDcel = P.build_dcel(vert, hedge)
+    PDcel = DCEL()
+    upperPts = createHalf(P,'U')
+    lowerPts = createHalf(P,'L')
     
-    Vt = P
+    sortedPoints = sorted(P, key = lambda x: x) #sorting by x, so we can just use sorted like this.
+    n = len(P)
+    PDcel.build_dcel(P, seg)
+
     # Vt = Vt(:n//2,)
 
     # VtDcel = Vt.build_dcel
     RC = []
     # RC.build_dcel((0,0),[(0,0),(0,0)])
-    RC.append(P.vertices[0])
-    RC.append(P.vertices[1])
+    RC.append(P[0])
+    RC.append(P[1])
     for i in range(2,n-1):
-        if not (PDcel.vertecies[i] == PDcel.vertecies[i+1]):
+        if not (PDcel.vertices[i] == PDcel.vertices[i+1]):
             while len(RC) > 1:
                 
                 RC.pop()
@@ -274,8 +308,9 @@ makeMonotone(test)
 # canvas.create_line(x, y, x+1, y, fill="#ff0000")
 
 myDCEL = DCEL()
+tmp_ps(test,S)
 myDCEL.build_dcel(test, S)
-tmp_ps(myDCEL)
+
 #drawFaces(myDCEL)
 
 
