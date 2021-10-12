@@ -199,7 +199,7 @@ def tmp_ps(P,seg,vt):
     # RC.build_dcel((0,0),[(0,0),(0,0)])
     RC.append(P[0])
     RC.append(P[1])
-    for i in range(2,n-1):
+    for i in range(2,n):
         # j = i
         if vt[i] in upperPts:
             if not (P[i] in upperPts):
@@ -329,7 +329,7 @@ S1 = [[ P1[0], P1[1]],
 #myDCEL.build_dcel(P2, S2)
 #drawFaces(myDCEL)
 
-test = ([100,300],[500,100],[600,500],[200,700],[100,600])
+test = ([100,300],[500,100],[600,500],[200,700],[150,600])
 
 S = connect(test)    
 
