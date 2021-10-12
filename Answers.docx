@@ -29,5 +29,21 @@ then at T=5 we should've had an intersection between T1 and T3, if one of those 
 Then that train is undoubetly the one that leads. If one has a bigger v but smaller k, we know that leads after the intersection. And lastly, if we have a bigger k but smaller
 v, then we will get out runned eventually, so we lead before the intersection.
 
+You could also do a line-sweep from the top y to the bottom, reason for this is because we want to find the farthest trains along, or trains with the biggest y values because 
+we are finding the leading train. 
+
+Another idea would be to just cut off the intersections right of the time t. Then, compare the train leading after the latest intersection with the other trains, we would do 
+this by checking if there are intersections with the train that occured before the latest intersection. If there are, then there are two possibilties.
+One would be that our leading train was surpassed some time ago, and thus the train that surpassed us will be the new leading train. 
+The other possibility is that our leading train passed another train before time t, which in that case we would stick wht the leading tree. 
+We now check that leading train for intersections 
+before the time that the new leading train intersected with the old leading train. If there is one, then the same logic applies, and therefore we will have a new leading train. 
+And we keep doing this until we get to time T=0. I will argue that this takes O(n) time, because in the worst-case scenario. Every train intersects, lets say that train 0 has the 
+fastest speed but smallest k, T1 has a the second smallest k and second fastest speed, ... and Tn has the slowest speed, but biggest k. Here we would keep looping back and 
+comparing the intersection points. This would be I comparisons for I intersections and since speed is constant, we can only have one intersection for every pair of trains,
+so I would be n-1. Though, for this to work, we would need to store information that the lines that intersect. Like, which line leads after the intersection, or what are the 
+lines speeds, because the faster one will be the one that leads. So every time we compare, we look at two lines and compare their speed, which is done in O(1) time. 
+
+To find the line intersections, with a line-sweep algorithm will take O(nlogn) time for the best algorithms. So, we end up with a runtime of O(nlogn) + O(n) runtime.
 
 
