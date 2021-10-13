@@ -199,7 +199,7 @@ def tmp_ps(P,seg,vt):
     # RC.build_dcel((0,0),[(0,0),(0,0)])
     RC.append(P[0])
     RC.append(P[1])
-    for i in range(2,n):
+    for i in range(1,n):
         # j = i
         if vt[i] in upperPts:
             if not (P[i] in upperPts):
@@ -211,7 +211,7 @@ def tmp_ps(P,seg,vt):
                 RC.append(vt[i])
                 RC.append(P[i])
             else:
-                while len(RC) > 1 and getAngle(vt[j-2],vt[i-1],vt[i]) > 180:
+                while len(RC) > 1 and getAngle(vt[i-2],vt[i-1],vt[i]) > 180:
                      drawLine(P[i], vt[i-1], 'black')
                      RC.pop()
                 RC.append(P[i]) 
